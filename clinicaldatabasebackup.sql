@@ -122,7 +122,15 @@ update pacientes set doenca = 'hepatite' where codp = 1;
 
 /*4: A consulta do Médico Pedro (codm 3) com o paciente Carlos(copd 4) passou para uma hora e meia depois*/
 select * from Consulta;
-update consulta set hora = '14:30' where codm=3 AND codp=4;
+update consulta set hora = '14:30' where fk_codm=3 AND fk_codp=4;
+
+/*5: O funcionário Carlos(codf 4) deixou a clínica*/
+select * from Funcionarios;
+delete from Funcionarios where codf=4;
+
+/*6: As consultas marcadas após as 19h foram canceladas*/
+select * from Consulta;
+delete from consulta where hora >= '19:00';
 
 
 
