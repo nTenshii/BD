@@ -132,9 +132,60 @@ delete from Funcionarios where codf=4;
 select * from Consulta;
 delete from consulta where hora >= '19:00';
 
+/*Aula 29/09*/
+select * from pacientes;
+select * from funcionarios;
+
+/*Selecionando atributos específicos da tabela*/
+select nome, idade from funcionarios;
+
+/*Nomeando os atributos para melhor apresentação (as 'Nome do Funcionário')*/
+select nome as 'Nome do Funcionário', idade from funcionarios;
+
+/*'order by idade desc' = ordernar por idade decrescente*/
+select nome as 'Nome do Funcionário', idade from funcionarios
+	order by idade desc;
+
+/*Criando novas tabelas que não existem no banco físico em si (INSS, Salário Líquido)*/
+select nome, salario, (salario * 0.12) as INSS, (salario- (salario*0.12)) as 'Salário Líquido'
+	from funcionarios order by 4; /*order by 4 = ordenar com base na quarta coluna*/
+
+select nome, salario from funcionarios;
+
+/*Não sei explicar o que aconteceu aqui, mas eu entendi ¯\_(ツ)_/¯*/
+select nome, salario, case 
+					  when salario < 1200 then format ((salario * 0.07), 2)
+                      when salario >= 1200 then format ((salario * 0.12),2)
+                      end as INSS
+                      from funcionarios
+                      order by 3;
 
 
-           
+select * from consulta, medicos where consulta.fk_codm = medicos.codm;
+select consulta.*, medicos.nome from consulta, medicos 
+	where consulta.fk_codm = medicos.codm;
+    
+/*Gere uma listagem com o nome do paiente*/
+select nome as 'Nome do Paciente' from pacientes;
+
+ select consulta.*, medicos.nome as 'Nome do medico', pacientes.nome as 'Nome do Paciente' from consulta, medicos, pacientes 
+    where consulta.fk_codm =  medicos.codm or consulta.fk_codp = pacientes.nome;
+    
+select consulta.data_consulta,pacientes.nome from consulta, pacientes 
+    where consulta.fk_codp = pacientes.codp and pacientes.nome = "Carlos";
+    
+select concat('Total de consultas é: ',count(*)) as 'Contagem' from consulta, pacientes 
+    where consulta.fk_codp = pacientes.codp and pacientes.nome = "Carlos";
+
+ 
+insert into funcionarios (nome,idade) values ('Romulo','102');
+select * from funcionarios;
+select count(salario) from funcionarios;
+
+ 
+
+/*MEDIA DAS IDADES*/
+select (sum(idade)/count(idade)) from funcionarios;          
  
 
 
